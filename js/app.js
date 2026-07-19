@@ -70,6 +70,34 @@
     return minutes ? `${displayHours}:${String(minutes).padStart(2, "0")}${meridiem}` : `${displayHours}${meridiem}`;
   }
 
+  // --- Google Calendar link --------------------------------------------------
+
+  // Prefilled all-day event: opens GCal with name/dates/location/details set,
+  // Mark just hits Save. GCal's all-day range is end-exclusive, so a 1-day
+  // race on 9/5 is 20260905/20260906 and a 9/5-9/6 weekend is /20260907.
+  function calendarUrl(race) {
+    const compact = (date) =>
+      `${date.getFullYear()}${String(date.getMonth() + 1).padStart(2, "0")}${String(date.getDate()).padStart(2, "0")}`;
+    const endExclusive = localDate(race.endDate);
+    endExclusive.setDate(endExclusive.getDate() + 1);
+    const location = [race.city, race.state].filter(Boolean).join(", ");
+    const teaser = race.categories.slice(0, 3).map((cat) => cat.name).join(", ");
+    const details = [
+      `Register: ${race.url}`,
+      race.categories.length
+        ? `${race.categories.length} categor${race.categories.length === 1 ? "y" : "ies"}${teaser ? ` — ${teaser}` : ""}${race.categories.length > 3 ? ", …" : ""}`
+        : "",
+    ].filter(Boolean).join("\n");
+    const params = new URLSearchParams({
+      action: "TEMPLATE",
+      text: race.name,
+      dates: `${compact(localDate(race.startDate))}/${compact(endExclusive)}`,
+      location,
+      details,
+    });
+    return `https://calendar.google.com/calendar/render?${params}`;
+  }
+
   // --- Registration status (computed live, so badges never go stale) --------
 
   function regStatus(race, now) {
@@ -166,6 +194,8 @@
         <button type="button" class="star-btn ${starred ? "is-starred" : ""}" data-id="${race.id}"
           aria-pressed="${starred}" aria-label="${starred ? "Unstar" : "Star"} ${escapeHtml(race.name)}"
           title="${starred ? "Remove from" : "Add to"} races I'm considering">${starred ? "★" : "☆"}</button>
+        <a class="cal-link" href="${escapeHtml(calendarUrl(race))}" target="_blank" rel="noopener"
+          title="Add to Google Calendar">+ Cal</a>
       </div>
     </article>`;
   }

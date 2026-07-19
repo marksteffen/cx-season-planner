@@ -335,6 +335,24 @@ button { font: inherit; cursor: pointer; }
 .star-btn.is-starred { color: #d9a514; }
 .star-btn.is-starred:active { transform: scale(1.25); }
 
+.cal-link {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--accent-deep);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 2px 8px;
+  background: var(--paper-raised);
+  white-space: nowrap;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.cal-link:hover { border-color: var(--accent); color: var(--accent); }
+
 /* --- Empty state / footer ------------------------------------------------ */
 
 .empty-state {
