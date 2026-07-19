@@ -6,6 +6,7 @@ live API (2026-07-18), plus two synthesized variants (null RegCloseDate,
 missing lat/long)."""
 
 import json
+import re
 import unittest
 import urllib.error
 from datetime import date
@@ -128,6 +129,78 @@ class FetchSeasonTest(unittest.TestCase):
             events, failures = fetch_races.fetch_season()
         self.assertEqual(list(events), [75277])
         self.assertEqual([start for start, _ in failures], [failing_start])
+
+
+class EnrichDriveTimesTest(unittest.TestCase):
+    def _race(self, event_id=75277):
+        return fetch_races.normalize_event(FIXTURE[event_id])
+
+    def test_cached_osrm_result_is_not_rerequested(self):
+        race = self._race()
+        cache = {str(race["id"]): {"minutes": 165, "miles": 120, "source": "osrm"}}
+        with mock.patch.object(fetch_races, "fetch_drive_time") as fetch_mock:
+            fetch_races.enrich_drive_times([race], cache)
+        fetch_mock.assert_not_called()
+        self.assertEqual(race["driveMinutes"], 165)
+        self.assertEqual(race["driveSource"], "osrm")
+
+    def test_missing_lat_lng_yields_null_drive_time(self):
+        race = self._race(76849)  # synthesized no-geo event
+        cache = {}
+        with mock.patch.object(fetch_races, "fetch_drive_time") as fetch_mock:
+            fetch_races.enrich_drive_times([race], cache)
+        fetch_mock.assert_not_called()
+        self.assertIsNone(race["driveMinutes"])
+        self.assertIsNone(race["driveMiles"])
+        self.assertIsNone(race["driveSource"])
+        self.assertEqual(cache, {})
+
+    def test_osrm_failure_falls_back_to_haversine_estimate(self):
+        race = self._race()  # Rocky Hill CT, ~100 straight-line miles from Brooklyn
+        cache = {}
+        with mock.patch.object(fetch_races, "fetch_drive_time",
+                               side_effect=urllib.error.URLError("down")), \
+             mock.patch.object(fetch_races.time, "sleep"):
+            fetch_races.enrich_drive_times([race], cache)
+        self.assertEqual(race["driveSource"], "estimate")
+        self.assertTrue(60 <= race["driveMiles"] <= 130, race["driveMiles"])
+        exact_miles = fetch_races.haversine_miles(
+            fetch_races.ORIGIN_LAT, fetch_races.ORIGIN_LNG, race["lat"], race["lng"])
+        self.assertEqual(race["driveMiles"], round(exact_miles))
+        self.assertEqual(race["driveMinutes"],
+                         round(exact_miles / fetch_races.ESTIMATE_SPEED_MPH * 60))
+        self.assertEqual(cache[str(race["id"])]["source"], "estimate")
+
+    def test_cached_estimate_is_retried_and_upgraded(self):
+        race = self._race()
+        cache = {str(race["id"]): {"minutes": 120, "miles": 90, "source": "estimate"}}
+        with mock.patch.object(fetch_races, "fetch_drive_time",
+                               return_value=(150.4, 118.6)), \
+             mock.patch.object(fetch_races.time, "sleep"):
+            fetch_races.enrich_drive_times([race], cache)
+        self.assertEqual(race["driveSource"], "osrm")
+        self.assertEqual(race["driveMinutes"], 150)
+        self.assertEqual(cache[str(race["id"])]["source"], "osrm")
+
+
+class WriteRaceDataTest(unittest.TestCase):
+    def test_output_is_valid_js_with_generated_at_and_date_sorted_events(self):
+        import tempfile
+        races, _ = fetch_races.normalize_season(dict(FIXTURE))
+        for race in races:
+            race.update(driveMinutes=None, driveMiles=None, driveSource=None)
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / "race-data.js"
+            fetch_races.write_race_data(races, out)
+            source = out.read_text()
+        match = re.search(r"^const RACE_DATA = (\{.*\});$", source, re.S | re.M)
+        self.assertIsNotNone(match, "expected a RACE_DATA assignment")
+        data = json.loads(match.group(1))
+        self.assertIn("generatedAt", data)
+        self.assertEqual(data["origin"]["label"], "Brooklyn, NY")
+        dates = [event["startDate"] for event in data["events"]]
+        self.assertEqual(dates, sorted(dates))
+        self.assertEqual(len(data["events"]), len(races))
 
 
 class SeasonWindowsTest(unittest.TestCase):

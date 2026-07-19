@@ -9,6 +9,7 @@ Zero dependencies beyond the Python 3 standard library.
 """
 
 import json
+import math
 import re
 import sys
 import time
@@ -43,7 +44,19 @@ EXCLUDED_TYPE_KEYWORDS = ("camp", "clinic")
 # series memberships, or programs.
 MAX_RACE_SPAN_DAYS = 4
 
+# --- Drive-time configuration ------------------------------------------------
+
+ORIGIN_LABEL = "Brooklyn, NY"
+ORIGIN_LAT, ORIGIN_LNG = 40.6782, -73.9442
+OSRM_URL = "https://router.project-osrm.org/route/v1/driving"
+# The OSRM demo server is a community service: throttle to ~1 request/second.
+OSRM_PAUSE_SECONDS = 1.0
+# Haversine fallback: straight-line miles at an assumed average speed.
+ESTIMATE_SPEED_MPH = 45
+EARTH_RADIUS_MILES = 3958.8
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
+CACHE_PATH = REPO_ROOT / "data" / "drivetime-cache.json"
 
 # --- Date parsing ------------------------------------------------------------
 
@@ -196,6 +209,78 @@ def normalize_season(events_by_id):
     return races, excluded
 
 
+# --- Drive-time enrichment ---------------------------------------------------
+
+
+def haversine_miles(lat1, lng1, lat2, lng2):
+    """Straight-line distance in miles between two coordinates."""
+    phi1, phi2 = math.radians(lat1), math.radians(lat2)
+    dphi = math.radians(lat2 - lat1)
+    dlambda = math.radians(lng2 - lng1)
+    a = math.sin(dphi / 2) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2) ** 2
+    return EARTH_RADIUS_MILES * 2 * math.asin(math.sqrt(a))
+
+
+def fetch_drive_time(lat, lng):
+    """Route from the origin to (lat, lng) via OSRM. Returns (minutes, miles).
+    Raises on any failure; callers fall back to the haversine estimate."""
+    url = (
+        f"{OSRM_URL}/{ORIGIN_LNG},{ORIGIN_LAT};{lng},{lat}"
+        "?overview=false"
+    )
+    request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+    with urllib.request.urlopen(request, timeout=30) as response:
+        payload = json.load(response)
+    if payload.get("code") != "Ok" or not payload.get("routes"):
+        raise ValueError(f"OSRM returned {payload.get('code')!r}")
+    route = payload["routes"][0]
+    return route["duration"] / 60, route["distance"] / 1609.344
+
+
+def load_cache(path=CACHE_PATH):
+    if path.exists():
+        return json.loads(path.read_text())
+    return {}
+
+
+def save_cache(cache, path=CACHE_PATH):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(cache, indent=1, sort_keys=True) + "\n")
+
+
+def enrich_drive_times(races, cache):
+    """Attach driveMinutes/driveMiles/driveSource to each race, using the
+    cache so reruns only route events OSRM hasn't answered for yet. Cached
+    estimates are retried (a past OSRM outage shouldn't stick forever);
+    cached OSRM results are permanent. Mutates races and cache in place."""
+    for race in races:
+        cached = cache.get(str(race["id"]))
+        if cached and cached.get("source") == "osrm":
+            entry = cached
+        elif race["lat"] is None or race["lng"] is None:
+            entry = None
+        else:
+            try:
+                minutes, miles = fetch_drive_time(race["lat"], race["lng"])
+                entry = {"minutes": round(minutes), "miles": round(miles), "source": "osrm"}
+            except (urllib.error.URLError, OSError, ValueError, KeyError) as exc:
+                if cached:
+                    entry = cached
+                else:
+                    miles = haversine_miles(ORIGIN_LAT, ORIGIN_LNG, race["lat"], race["lng"])
+                    entry = {
+                        "minutes": round(miles / ESTIMATE_SPEED_MPH * 60),
+                        "miles": round(miles),
+                        "source": "estimate",
+                    }
+                print(f"  OSRM failed for {race['name']}: {exc} — using estimate", file=sys.stderr)
+            cache[str(race["id"])] = entry
+            time.sleep(OSRM_PAUSE_SECONDS)
+        race["driveMinutes"] = entry["minutes"] if entry else None
+        race["driveMiles"] = entry["miles"] if entry else None
+        race["driveSource"] = entry["source"] if entry else None
+
+
 # --- Output ------------------------------------------------------------------
 
 
@@ -205,6 +290,7 @@ def write_race_data(races, path):
         "generatedAt": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "seasonStart": SEASON_START.isoformat(),
         "seasonEnd": SEASON_END.isoformat(),
+        "origin": {"label": ORIGIN_LABEL, "lat": ORIGIN_LAT, "lng": ORIGIN_LNG},
         "events": races,
     }
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -224,6 +310,11 @@ def main():
     print(f"\n{len(races)} races kept, {len(excluded)} listings excluded:")
     for name, reason in excluded:
         print(f"  excluded: {name} ({reason})")
+    cache = load_cache()
+    uncached = sum(1 for r in races if str(r["id"]) not in cache)
+    print(f"\nDrive times from {ORIGIN_LABEL}: {len(races) - uncached} cached, {uncached} to route")
+    enrich_drive_times(races, cache)
+    save_cache(cache)
     output_path = REPO_ROOT / "js" / "race-data.js"
     write_race_data(races, output_path)
     print(f"\nWrote {output_path.relative_to(REPO_ROOT)}")

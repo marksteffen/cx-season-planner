@@ -1,0 +1,317 @@
+{
+ "72812": {
+  "miles": 1135,
+  "minutes": 1270,
+  "source": "osrm"
+ },
+ "73083": {
+  "miles": 218,
+  "minutes": 297,
+  "source": "osrm"
+ },
+ "73525": {
+  "miles": 94,
+  "minutes": 138,
+  "source": "osrm"
+ },
+ "73634": {
+  "miles": 200,
+  "minutes": 273,
+  "source": "osrm"
+ },
+ "73770": {
+  "miles": 143,
+  "minutes": 202,
+  "source": "osrm"
+ },
+ "73951": {
+  "miles": 329,
+  "minutes": 420,
+  "source": "osrm"
+ },
+ "73952": {
+  "miles": 383,
+  "minutes": 482,
+  "source": "osrm"
+ },
+ "74138": {
+  "miles": 363,
+  "minutes": 464,
+  "source": "osrm"
+ },
+ "74375": {
+  "miles": 314,
+  "minutes": 413,
+  "source": "osrm"
+ },
+ "74473": {
+  "miles": 2888,
+  "minutes": 3071,
+  "source": "osrm"
+ },
+ "75004": {
+  "miles": 624,
+  "minutes": 735,
+  "source": "osrm"
+ },
+ "75191": {
+  "miles": 1037,
+  "minutes": 1167,
+  "source": "osrm"
+ },
+ "75276": {
+  "miles": 109,
+  "minutes": 154,
+  "source": "osrm"
+ },
+ "75277": {
+  "miles": 109,
+  "minutes": 155,
+  "source": "osrm"
+ },
+ "75279": {
+  "miles": 109,
+  "minutes": 155,
+  "source": "osrm"
+ },
+ "75280": {
+  "miles": 109,
+  "minutes": 155,
+  "source": "osrm"
+ },
+ "75434": {
+  "miles": 185,
+  "minutes": 255,
+  "source": "osrm"
+ },
+ "75454": {
+  "miles": 136,
+  "minutes": 186,
+  "source": "osrm"
+ },
+ "75517": {
+  "miles": 2951,
+  "minutes": 3158,
+  "source": "osrm"
+ },
+ "75529": {
+  "miles": 83,
+  "minutes": 126,
+  "source": "osrm"
+ },
+ "75611": {
+  "miles": 311,
+  "minutes": 426,
+  "source": "osrm"
+ },
+ "75652": {
+  "miles": 150,
+  "minutes": 205,
+  "source": "osrm"
+ },
+ "75654": {
+  "miles": 1759,
+  "minutes": 1917,
+  "source": "osrm"
+ },
+ "75734": {
+  "miles": 108,
+  "minutes": 157,
+  "source": "osrm"
+ },
+ "75737": {
+  "miles": 1028,
+  "minutes": 1165,
+  "source": "osrm"
+ },
+ "76598": {
+  "miles": 907,
+  "minutes": 1038,
+  "source": "osrm"
+ },
+ "76702": {
+  "miles": 388,
+  "minutes": 482,
+  "source": "osrm"
+ },
+ "76714": {
+  "miles": 983,
+  "minutes": 1143,
+  "source": "osrm"
+ },
+ "76766": {
+  "miles": 291,
+  "minutes": 385,
+  "source": "osrm"
+ },
+ "76782": {
+  "miles": 87,
+  "minutes": 120,
+  "source": "osrm"
+ },
+ "76849": {
+  "miles": 885,
+  "minutes": 1009,
+  "source": "osrm"
+ },
+ "76861": {
+  "miles": 463,
+  "minutes": 546,
+  "source": "osrm"
+ },
+ "76873": {
+  "miles": 323,
+  "minutes": 420,
+  "source": "osrm"
+ },
+ "76900": {
+  "miles": 84,
+  "minutes": 115,
+  "source": "osrm"
+ },
+ "76923": {
+  "miles": 364,
+  "minutes": 465,
+  "source": "osrm"
+ },
+ "76924": {
+  "miles": 203,
+  "minutes": 255,
+  "source": "osrm"
+ },
+ "76949": {
+  "miles": 388,
+  "minutes": 505,
+  "source": "osrm"
+ },
+ "76950": {
+  "miles": 643,
+  "minutes": 758,
+  "source": "osrm"
+ },
+ "76956": {
+  "miles": 392,
+  "minutes": 500,
+  "source": "osrm"
+ },
+ "76957": {
+  "miles": 370,
+  "minutes": 474,
+  "source": "osrm"
+ },
+ "76958": {
+  "miles": 388,
+  "minutes": 505,
+  "source": "osrm"
+ },
+ "76976": {
+  "miles": 96,
+  "minutes": 132,
+  "source": "osrm"
+ },
+ "76986": {
+  "miles": 115,
+  "minutes": 157,
+  "source": "osrm"
+ },
+ "77001": {
+  "miles": 209,
+  "minutes": 272,
+  "source": "osrm"
+ },
+ "77025": {
+  "miles": 191,
+  "minutes": 252,
+  "source": "osrm"
+ },
+ "77032": {
+  "miles": 173,
+  "minutes": 231,
+  "source": "osrm"
+ },
+ "77038": {
+  "miles": 145,
+  "minutes": 198,
+  "source": "osrm"
+ },
+ "77046": {
+  "miles": 165,
+  "minutes": 228,
+  "source": "osrm"
+ },
+ "77049": {
+  "miles": 225,
+  "minutes": 292,
+  "source": "osrm"
+ },
+ "77071": {
+  "miles": 90,
+  "minutes": 124,
+  "source": "osrm"
+ },
+ "77080": {
+  "miles": 621,
+  "minutes": 731,
+  "source": "osrm"
+ },
+ "77096": {
+  "miles": 1806,
+  "minutes": 1968,
+  "source": "osrm"
+ },
+ "77116": {
+  "miles": 1802,
+  "minutes": 1960,
+  "source": "osrm"
+ },
+ "77119": {
+  "miles": 1804,
+  "minutes": 1964,
+  "source": "osrm"
+ },
+ "77120": {
+  "miles": 1796,
+  "minutes": 1952,
+  "source": "osrm"
+ },
+ "77122": {
+  "miles": 1807,
+  "minutes": 1969,
+  "source": "osrm"
+ },
+ "77126": {
+  "miles": 1790,
+  "minutes": 1943,
+  "source": "osrm"
+ },
+ "77127": {
+  "miles": 1784,
+  "minutes": 1947,
+  "source": "osrm"
+ },
+ "77132": {
+  "miles": 930,
+  "minutes": 1082,
+  "source": "osrm"
+ },
+ "77138": {
+  "miles": 1076,
+  "minutes": 1249,
+  "source": "osrm"
+ },
+ "77151": {
+  "miles": 11,
+  "minutes": 24,
+  "source": "osrm"
+ },
+ "77157": {
+  "miles": 44,
+  "minutes": 71,
+  "source": "osrm"
+ },
+ "77163": {
+  "miles": 639,
+  "minutes": 752,
+  "source": "osrm"
+ }
+}
