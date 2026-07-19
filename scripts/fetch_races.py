@@ -127,10 +127,16 @@ def fetch_season():
             print(f"  {window_start:%Y-%m}: FAILED ({exc})", file=sys.stderr)
             failures.append((window_start, window_end))
             continue
-        new = [e for e in raw_events if e["EventId"] not in events]
-        for event in new:
-            events[event["EventId"]] = event
-        print(f"  {window_start:%Y-%m}: {len(raw_events)} events ({len(new)} new)")
+        new = 0
+        for event in raw_events:
+            event_id = event.get("EventId")
+            if event_id is None:
+                print(f"  {window_start:%Y-%m}: skipping record with no EventId", file=sys.stderr)
+                continue
+            if event_id not in events:
+                events[event_id] = event
+                new += 1
+        print(f"  {window_start:%Y-%m}: {len(raw_events)} events ({new} new)")
         if len(raw_events) >= MAX_RESULTS:
             print(
                 f"  WARNING: {window_start:%Y-%m} returned {len(raw_events)} events, "
@@ -146,16 +152,17 @@ def fetch_season():
 
 def exclusion_reason(raw_event):
     """Return why this listing isn't a race, or None to keep it."""
+    start = parse_dotnet_date(raw_event.get("EventDate"))
+    if start is None:
+        return "missing or unparseable EventDate"
     for event_type in raw_event.get("EventTypes") or []:
         for keyword in EXCLUDED_TYPE_KEYWORDS:
             if keyword in event_type.lower():
                 return f"event type '{event_type}'"
-    start = parse_dotnet_date(raw_event.get("EventDate"))
     end = parse_dotnet_date(raw_event.get("EventEndDate")) or start
-    if start and end:
-        span = (end.date() - start.date()).days + 1
-        if span > MAX_RACE_SPAN_DAYS:
-            return f"spans {span} days"
+    span = (end.date() - start.date()).days + 1
+    if span > MAX_RACE_SPAN_DAYS:
+        return f"spans {span} days"
     return None
 
 
@@ -163,12 +170,18 @@ def normalize_event(raw_event):
     """Normalize one raw API event into the record the site consumes."""
     start = parse_dotnet_date(raw_event["EventDate"])
     end = parse_dotnet_date(raw_event.get("EventEndDate")) or start
+    if end.date() < start.date():
+        end = start
     reg_open = parse_dotnet_date(raw_event.get("RegOpenDate"))
     reg_close = parse_dotnet_date(raw_event.get("RegCloseDate"))
     # The API hands out http:// permalinks; the site itself is https.
+    # Anything that isn't http(s) (a hostile javascript: URL, say) is dropped —
+    # this value ends up in an href on the page.
     url = raw_event.get("EventPermalink") or raw_event.get("EventUrl")
     if url and url.startswith("http://"):
         url = "https://" + url[len("http://"):]
+    if url and not url.startswith("https://"):
+        url = None
     return {
         "id": raw_event["EventId"],
         "name": raw_event["EventName"],
@@ -200,11 +213,15 @@ def normalize_season(events_by_id):
     races = []
     excluded = []
     for raw_event in events_by_id.values():
-        reason = exclusion_reason(raw_event)
-        if reason:
-            excluded.append((raw_event["EventName"], reason))
-        else:
-            races.append(normalize_event(raw_event))
+        label = raw_event.get("EventName") or f"event {raw_event.get('EventId')}"
+        try:
+            reason = exclusion_reason(raw_event)
+            if reason:
+                excluded.append((label, reason))
+            else:
+                races.append(normalize_event(raw_event))
+        except Exception as exc:  # one malformed record must not kill the refresh
+            excluded.append((label, f"normalization error: {exc!r}"))
     races.sort(key=lambda race: (race["startDate"], race["name"]))
     return races, excluded
 
@@ -258,6 +275,7 @@ def enrich_drive_times(races, cache):
         if cached and cached.get("source") == "osrm":
             entry = cached
         elif race["lat"] is None or race["lng"] is None:
+            print(f"  no coordinates for {race['name']} — drive time left blank", file=sys.stderr)
             entry = None
         else:
             try:

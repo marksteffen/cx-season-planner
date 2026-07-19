@@ -1,7 +1,7 @@
 ---
 title: "feat: Cyclocross Season Planner site"
 type: feat
-status: active
+status: completed
 date: 2026-07-18
 ---
 
@@ -94,7 +94,7 @@ Mark is planning his cyclocross racing season (roughly Aug 2026 through Jan 2027
 
 ## Implementation Units
 
-- [ ] **Unit 1: BikeReg fetch and normalize script**
+- [x] **Unit 1: BikeReg fetch and normalize script**
 
 **Goal:** `scripts/fetch_races.py` pulls the full season of cyclocross events and normalizes them into clean JSON records.
 
@@ -128,7 +128,7 @@ Mark is planning his cyclocross racing season (roughly Aug 2026 through Jan 2027
 **Verification:**
 - Running the script prints a per-month event count and writes a normalized JSON structure covering the real season; spot-check a known race (e.g. a CCAP Rocky Hill series event) has correct dates, categories, and reg window
 
-- [ ] **Unit 2: Drive-time enrichment**
+- [x] **Unit 2: Drive-time enrichment**
 
 **Goal:** Each event gets `driveMinutes` and `driveMiles` from Brooklyn, cached across reruns.
 
@@ -156,7 +156,7 @@ Mark is planning his cyclocross racing season (roughly Aug 2026 through Jan 2027
 **Verification:**
 - Second consecutive run makes zero OSRM calls and produces identical output; drive time for a known race (e.g. a Connecticut CCAP race ≈ 2h from Brooklyn) passes a sanity check
 
-- [ ] **Unit 3: Season planner UI**
+- [x] **Unit 3: Season planner UI**
 
 **Goal:** `index.html` renders the season: every race with name, dates, day count, location, drive time, reg status badge, reg close date, categories, and a link to BikeReg.
 
@@ -192,7 +192,7 @@ Mark is planning his cyclocross racing season (roughly Aug 2026 through Jan 2027
 **Verification:**
 - Open via browser preview; verify against the live BikeReg pages for 2–3 races (dates, reg status, category names match)
 
-- [ ] **Unit 4: Google Calendar links + README**
+- [x] **Unit 4: Google Calendar links + README**
 
 **Goal:** One-click "Add to Google Calendar" per race, and a README documenting the refresh workflow.
 
@@ -219,7 +219,7 @@ Mark is planning his cyclocross racing season (roughly Aug 2026 through Jan 2027
 **Verification:**
 - Click through for one near-term race; the prefilled GCal event matches the race's name, dates, and location
 
-- [ ] **Unit 5: Deploy as a webapp with scheduled refresh**
+- [x] **Unit 5: Deploy as a webapp with scheduled refresh**
 
 **Goal:** The site lives at a public URL and its data refreshes daily with no involvement from Mark or his machine.
 

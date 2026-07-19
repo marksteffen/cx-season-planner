@@ -47,6 +47,16 @@
     return new Date(year, month - 1, day);
   }
 
+  function pluralize(count, singular, plural) {
+    return count === 1 ? singular : plural;
+  }
+
+  // Defense in depth: the fetch script already drops non-https URLs, but this
+  // value lands in an href, so never trust it blindly.
+  function safeUrl(url) {
+    return url && url.startsWith("https://") ? url : null;
+  }
+
   const DOW = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const MONTHS = ["January", "February", "March", "April", "May", "June", "July",
     "August", "September", "October", "November", "December"];
@@ -82,10 +92,11 @@
     endExclusive.setDate(endExclusive.getDate() + 1);
     const location = [race.city, race.state].filter(Boolean).join(", ");
     const teaser = race.categories.slice(0, 3).map((cat) => cat.name).join(", ");
+    const registerUrl = safeUrl(race.url);
     const details = [
-      `Register: ${race.url}`,
+      registerUrl ? `Register: ${registerUrl}` : "",
       race.categories.length
-        ? `${race.categories.length} categor${race.categories.length === 1 ? "y" : "ies"}${teaser ? ` — ${teaser}` : ""}${race.categories.length > 3 ? ", …" : ""}`
+        ? `${race.categories.length} ${pluralize(race.categories.length, "category", "categories")}${teaser ? ` — ${teaser}` : ""}${race.categories.length > 3 ? ", …" : ""}`
         : "",
     ].filter(Boolean).join("\n");
     const params = new URLSearchParams({
@@ -127,11 +138,12 @@
       return true;
     });
     if (state.sort === "drive") {
+      const byDate = (a, b) => (a.startDate < b.startDate ? -1 : a.startDate > b.startDate ? 1 : 0);
       races = [...races].sort((a, b) => {
-        if (a.driveMinutes == null && b.driveMinutes == null) return a.startDate < b.startDate ? -1 : 1;
+        if (a.driveMinutes == null && b.driveMinutes == null) return byDate(a, b);
         if (a.driveMinutes == null) return 1;
         if (b.driveMinutes == null) return -1;
-        return a.driveMinutes - b.driveMinutes || (a.startDate < b.startDate ? -1 : 1);
+        return a.driveMinutes - b.driveMinutes || byDate(a, b);
       });
     }
     return races;
@@ -159,7 +171,7 @@
 
     const categories = catCount
       ? `<details class="race-cats" data-id="${race.id}"${state.expanded.has(race.id) ? " open" : ""}>
-          <summary>${catCount} categor${catCount === 1 ? "y" : "ies"}</summary>
+          <summary>${catCount} ${pluralize(catCount, "category", "categories")}</summary>
           <div class="cat-table">${race.categories.map((cat) => `
             <div class="cat-row">
               <span class="cat-name" title="${escapeHtml(cat.name)}">${escapeHtml(cat.name)}</span>
@@ -177,7 +189,9 @@
         ${multiDay ? `<span class="badge-days">${race.days} days</span>` : ""}
       </div>
       <div class="race-main">
-        <h3 class="race-name"><a href="${escapeHtml(race.url)}" rel="noopener">${escapeHtml(race.name)}</a></h3>
+        <h3 class="race-name">${safeUrl(race.url)
+          ? `<a href="${escapeHtml(safeUrl(race.url))}" rel="noopener">${escapeHtml(race.name)}</a>`
+          : escapeHtml(race.name)}</h3>
         <p class="race-meta">${escapeHtml(location)}${race.presentedBy ? `<span class="sep">·</span>${escapeHtml(race.presentedBy)}` : ""}</p>
         <div class="race-reg">
           <span class="badge ${status.kind}">${status.label}</span>
@@ -238,7 +252,7 @@
       let index = 0;
       listEl.innerHTML = [...groups.entries()].map(([month, monthRaces]) => `
         <section>
-          <h2 class="month-heading">${month} <span class="month-count">${monthRaces.length} race${monthRaces.length === 1 ? "" : "s"}</span></h2>
+          <h2 class="month-heading">${month} <span class="month-count">${monthRaces.length} ${pluralize(monthRaces.length, "race", "races")}</span></h2>
           ${monthRaces.map((race) => raceHtml(race, index++, now)).join("")}
         </section>`).join("");
     }

@@ -80,6 +80,28 @@ class NormalizeEventTest(unittest.TestCase):
         self.assertIsNone(race["lng"])
         self.assertEqual(race["startDate"], "2026-09-13")
 
+    def test_end_date_before_start_date_is_clamped(self):
+        raw = dict(FIXTURE[75277])
+        raw["EventDate"], raw["EventEndDate"] = raw["EventEndDate"], "/Date(1788235200000-0400)/"
+        raw["EventDate"] = "/Date(1788321600000-0400)/"  # Sep 2
+        raw["EventEndDate"] = "/Date(1788235200000-0400)/"  # Sep 1 (before start)
+        race = fetch_races.normalize_event(raw)
+        self.assertEqual(race["startDate"], "2026-09-02")
+        self.assertEqual(race["endDate"], "2026-09-02")
+        self.assertEqual(race["days"], 1)
+
+    def test_non_http_url_scheme_is_dropped(self):
+        raw = dict(FIXTURE[75277])
+        raw["EventPermalink"] = "javascript:alert(1)"
+        raw["EventUrl"] = None
+        self.assertIsNone(fetch_races.normalize_event(raw)["url"])
+
+    def test_missing_urls_yield_none(self):
+        raw = dict(FIXTURE[75277])
+        raw["EventPermalink"] = None
+        raw["EventUrl"] = None
+        self.assertIsNone(fetch_races.normalize_event(raw)["url"])
+
 
 class ExclusionTest(unittest.TestCase):
     def test_camp_with_cyclocross_type_is_excluded(self):
@@ -99,6 +121,28 @@ class ExclusionTest(unittest.TestCase):
 
     def test_two_day_race_weekend_is_kept(self):
         self.assertIsNone(fetch_races.exclusion_reason(FIXTURE[77025]))
+
+    def test_unparseable_event_date_is_excluded_not_crashed(self):
+        for bad_date in (None, "not a date", ""):
+            raw = dict(FIXTURE[75277])
+            raw["EventDate"] = bad_date
+            self.assertEqual(fetch_races.exclusion_reason(raw),
+                             "missing or unparseable EventDate")
+
+    def test_normalize_season_survives_malformed_record(self):
+        # A record that passes exclusion but blows up in normalize_event must
+        # be logged and skipped, not kill the whole refresh.
+        broken = dict(FIXTURE[75277])
+        del broken["EventName"]
+        broken["EventId"] = 999999
+        events = {75277: FIXTURE[75277], 999999: broken}
+        with mock.patch.object(fetch_races, "normalize_event",
+                               side_effect=[fetch_races.normalize_event(FIXTURE[75277]),
+                                            KeyError("EventName")]):
+            races, excluded = fetch_races.normalize_season(events)
+        self.assertEqual(len(races), 1)
+        self.assertEqual(len(excluded), 1)
+        self.assertIn("normalization error", excluded[0][1])
 
 
 class FetchSeasonTest(unittest.TestCase):
@@ -129,6 +173,19 @@ class FetchSeasonTest(unittest.TestCase):
             events, failures = fetch_races.fetch_season()
         self.assertEqual(list(events), [75277])
         self.assertEqual([start for start, _ in failures], [failing_start])
+
+    def test_record_without_event_id_is_skipped(self):
+        windows = list(fetch_races.season_windows())
+        no_id = {k: v for k, v in FIXTURE[75277].items() if k != "EventId"}
+
+        def fake_fetch(start, end):
+            return [no_id, FIXTURE[77025]] if start == windows[0][0] else []
+
+        with mock.patch.object(fetch_races, "fetch_window", side_effect=fake_fetch), \
+             mock.patch.object(fetch_races.time, "sleep"):
+            events, failures = fetch_races.fetch_season()
+        self.assertEqual(list(events), [77025])
+        self.assertEqual(failures, [])
 
 
 class EnrichDriveTimesTest(unittest.TestCase):
@@ -201,6 +258,95 @@ class WriteRaceDataTest(unittest.TestCase):
         dates = [event["startDate"] for event in data["events"]]
         self.assertEqual(dates, sorted(dates))
         self.assertEqual(len(data["events"]), len(races))
+
+
+def fake_urlopen_response(payload):
+    """A context manager mimicking urlopen's response for json.load."""
+    import io
+    from contextlib import contextmanager
+
+    @contextmanager
+    def opener(request, timeout=None):
+        opener.request = request
+        yield io.StringIO(json.dumps(payload))
+
+    return opener
+
+
+class FetchWindowTest(unittest.TestCase):
+    def test_builds_request_with_params_and_user_agent(self):
+        opener = fake_urlopen_response({"MatchingEvents": [FIXTURE[75277]]})
+        with mock.patch.object(fetch_races.urllib.request, "urlopen", opener):
+            events = fetch_races.fetch_window(date(2026, 9, 1), date(2026, 9, 30))
+        self.assertEqual(events, [FIXTURE[75277]])
+        request = opener.request
+        self.assertIn("eventType=cyclocross", request.full_url)
+        self.assertIn("startDate=2026-09-01", request.full_url)
+        self.assertIn("endDate=2026-09-30", request.full_url)
+        self.assertIn("Mozilla", request.get_header("User-agent", ""))
+
+    def test_missing_matching_events_returns_empty_list(self):
+        opener = fake_urlopen_response({})
+        with mock.patch.object(fetch_races.urllib.request, "urlopen", opener):
+            self.assertEqual(fetch_races.fetch_window(date(2026, 9, 1), date(2026, 9, 30)), [])
+
+
+class CacheRoundTripTest(unittest.TestCase):
+    def test_save_then_load_round_trips(self):
+        import tempfile
+        cache = {"75277": {"minutes": 154, "miles": 109, "source": "osrm"}}
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "nested" / "cache.json"
+            fetch_races.save_cache(cache, path)
+            self.assertEqual(fetch_races.load_cache(path), cache)
+
+    def test_missing_cache_file_loads_empty(self):
+        self.assertEqual(fetch_races.load_cache(Path("/nonexistent/cache.json")), {})
+
+
+class FetchDriveTimeTest(unittest.TestCase):
+    def test_osrm_error_code_raises_value_error(self):
+        opener = fake_urlopen_response({"code": "NoRoute", "routes": []})
+        with mock.patch.object(fetch_races.urllib.request, "urlopen", opener):
+            with self.assertRaises(ValueError):
+                fetch_races.fetch_drive_time(41.66, -72.65)
+
+    def test_ok_response_converts_units(self):
+        opener = fake_urlopen_response(
+            {"code": "Ok", "routes": [{"duration": 9240.0, "distance": 175417.0}]})
+        with mock.patch.object(fetch_races.urllib.request, "urlopen", opener):
+            minutes, miles = fetch_races.fetch_drive_time(41.66, -72.65)
+        self.assertEqual(round(minutes), 154)
+        self.assertEqual(round(miles), 109)
+
+
+class MainTest(unittest.TestCase):
+    def _run_main(self, events_by_id, failures):
+        with mock.patch.object(fetch_races, "fetch_season",
+                               return_value=(events_by_id, failures)), \
+             mock.patch.object(fetch_races, "load_cache", return_value={}), \
+             mock.patch.object(fetch_races, "save_cache") as save_mock, \
+             mock.patch.object(fetch_races, "enrich_drive_times"), \
+             mock.patch.object(fetch_races, "write_race_data") as write_mock:
+            code = fetch_races.main()
+        return code, write_mock, save_mock
+
+    def test_no_events_returns_1_without_writing(self):
+        code, write_mock, _ = self._run_main({}, [])
+        self.assertEqual(code, 1)
+        write_mock.assert_not_called()
+
+    def test_window_failures_write_data_but_return_1(self):
+        code, write_mock, _ = self._run_main(
+            {75277: FIXTURE[75277]}, [(date(2026, 9, 1), date(2026, 9, 30))])
+        self.assertEqual(code, 1)
+        write_mock.assert_called_once()
+
+    def test_full_success_returns_0(self):
+        code, write_mock, save_mock = self._run_main({75277: FIXTURE[75277]}, [])
+        self.assertEqual(code, 0)
+        write_mock.assert_called_once()
+        save_mock.assert_called_once()
 
 
 class SeasonWindowsTest(unittest.TestCase):
