@@ -1,0 +1,437 @@
+{
+ "MatchingEvents": [
+  {
+   "EventId": 75277,
+   "EventName": "CCAP Rocky Hill Cyclocross Series #2",
+   "EventCity": "Rocky Hill",
+   "EventState": "CT",
+   "EventZip": "06067",
+   "EventDate": "/Date(1788321600000-0400)/",
+   "EventEndDate": "/Date(1788321600000-0400)/",
+   "Latitude": 41.6616066750042,
+   "Longitude": -72.652003839612,
+   "EventPermalink": "http://www.BikeReg.com/75277",
+   "EventUrl": "http://www.BikeReg.com/ccap-rocky-hill-week-2",
+   "RegOpenDate": "/Date(1780287300000-0400)/",
+   "RegCloseDate": "/Date(1788321540000-0400)/",
+   "EventTypes": [
+    "Cyclocross",
+    "NEBRA"
+   ],
+   "PresentedBy": "CCAP",
+   "Categories": [
+    {
+     "CategoryName": "CCAP Led Junior Practice",
+     "CategoryDates": [
+      "/Date(1788321600000-0400)/"
+     ],
+     "EntryFee": 10.0,
+     "StartTime": "17:00:00",
+     "FieldLimit": 85,
+     "RegistrationCount": 0
+    },
+    {
+     "CategoryName": "CCAP Junior Race",
+     "CategoryDates": [
+      "/Date(1788321600000-0400)/"
+     ],
+     "EntryFee": 20.0,
+     "StartTime": "17:35:00",
+     "FieldLimit": 85,
+     "RegistrationCount": 0
+    },
+    {
+     "CategoryName": "CCAP Junior Race Waitlist",
+     "CategoryDates": [
+      "/Date(1788321600000-0400)/"
+     ],
+     "EntryFee": 0.0,
+     "StartTime": "17:35:00",
+     "FieldLimit": 15,
+     "RegistrationCount": 0
+    }
+   ]
+  },
+  {
+   "EventId": 77025,
+   "EventName": "Charm City Cross - USCX Series UCI C1/C2",
+   "EventCity": "Baltimore",
+   "EventState": "MD",
+   "EventZip": "21217",
+   "EventDate": "/Date(1791000000000-0400)/",
+   "EventEndDate": "/Date(1791086400000-0400)/",
+   "Latitude": 39.3209669514424,
+   "Longitude": -76.6430933486267,
+   "EventPermalink": "http://www.BikeReg.com/77025",
+   "EventUrl": "http://www.BikeReg.com/charmcitycross",
+   "RegOpenDate": "/Date(1783570500000-0400)/",
+   "RegCloseDate": "/Date(1790827140000-0400)/",
+   "EventTypes": [
+    "Cyclocross",
+    "MABRA",
+    "UCI Cyclocross Race"
+   ],
+   "PresentedBy": "Presented By Wagner Roofing",
+   "Categories": [
+    {
+     "CategoryName": "Saturday Junior Boys (11-12)",
+     "CategoryDates": [
+      "/Date(1791086400000-0400)/"
+     ],
+     "EntryFee": 32.0,
+     "StartTime": "07:45:00",
+     "FieldLimit": 100,
+     "RegistrationCount": 0
+    },
+    {
+     "CategoryName": "Saturday Junior Girls (11-12)",
+     "CategoryDates": [
+      "/Date(1791086400000-0400)/"
+     ],
+     "EntryFee": 32.0,
+     "StartTime": "07:45:00",
+     "FieldLimit": 100,
+     "RegistrationCount": 0
+    },
+    {
+     "CategoryName": "Saturday Junior Boys (9-10)",
+     "CategoryDates": [
+      "/Date(1791086400000-0400)/"
+     ],
+     "EntryFee": 32.0,
+     "StartTime": "07:46:00",
+     "FieldLimit": 100,
+     "RegistrationCount": 0
+    }
+   ]
+  },
+  {
+   "EventId": 76626,
+   "EventName": "Cycle-Smart Cyclocross Camp",
+   "EventCity": "Southampton",
+   "EventState": "MA",
+   "EventZip": "01073",
+   "EventDate": "/Date(1785556800000-0400)/",
+   "EventEndDate": "/Date(1785816000000-0400)/",
+   "Latitude": 42.271001,
+   "Longitude": -72.7171283,
+   "EventPermalink": "http://www.BikeReg.com/76626",
+   "EventUrl": "http://www.BikeReg.com/cycle-smart-cyclocross-camp",
+   "RegOpenDate": "/Date(1780287300000-0400)/",
+   "RegCloseDate": "/Date(1785283200000-0400)/",
+   "EventTypes": [
+    "Cycling Camp",
+    "Cyclocross"
+   ],
+   "PresentedBy": "Cycle-Smart",
+   "Categories": [
+    {
+     "CategoryName": "Saturday/Sunday Skills Camp - All Ages",
+     "CategoryDates": [
+      "/Date(1785556800000-0400)/",
+      "/Date(1785643200000-0400)/"
+     ],
+     "EntryFee": 600.0,
+     "StartTime": "23:59:00",
+     "FieldLimit": 50,
+     "RegistrationCount": 0
+    },
+    {
+     "CategoryName": "Saturday/Sunday Skills Camp - All Ages Waitlist",
+     "CategoryDates": [
+      "/Date(1785556800000-0400)/",
+      "/Date(1785643200000-0400)/"
+     ],
+     "EntryFee": 0.0,
+     "StartTime": "23:59:00",
+     "FieldLimit": 0,
+     "RegistrationCount": 0
+    },
+    {
+     "CategoryName": "Saturday/Sunday Skills Camp - Under 13 Years Old",
+     "CategoryDates": [
+      "/Date(1785556800000-0400)/",
+      "/Date(1785643200000-0400)/"
+     ],
+     "EntryFee": 300.0,
+     "StartTime": "23:59:00",
+     "FieldLimit": 15,
+     "RegistrationCount": 0
+    }
+   ]
+  },
+  {
+   "EventId": 77173,
+   "EventName": "River Valley CX Series",
+   "EventCity": "Springfield",
+   "EventState": "MA",
+   "EventZip": "01109",
+   "EventDate": "/Date(1788062400000-0400)/",
+   "EventEndDate": "/Date(1794027600000-0500)/",
+   "Latitude": 42.1237147,
+   "Longitude": -72.5500596,
+   "EventPermalink": "http://www.BikeReg.com/77173",
+   "EventUrl": "http://www.BikeReg.com/rvcxs",
+   "RegOpenDate": "/Date(1784088900000-0400)/",
+   "RegCloseDate": "/Date(1788037200000-0400)/",
+   "EventTypes": [
+    "Cyclocross",
+    "No One-Day Licenses"
+   ],
+   "PresentedBy": "",
+   "Categories": [
+    {
+     "CategoryName": "Men 1/2/3",
+     "CategoryDates": [
+      "/Date(1788062400000-0400)/",
+      "/Date(1788580800000-0400)/",
+      "/Date(1790395200000-0400)/",
+      "/Date(1792209600000-0400)/",
+      "/Date(1794027600000-0500)/"
+     ],
+     "EntryFee": 185.0,
+     "StartTime": "23:59:00",
+     "FieldLimit": 0,
+     "RegistrationCount": 0
+    },
+    {
+     "CategoryName": "Men 3/4",
+     "CategoryDates": [
+      "/Date(1788062400000-0400)/",
+      "/Date(1788580800000-0400)/",
+      "/Date(1790395200000-0400)/",
+      "/Date(1792209600000-0400)/",
+      "/Date(1794027600000-0500)/"
+     ],
+     "EntryFee": 185.0,
+     "StartTime": "23:59:00",
+     "FieldLimit": 0,
+     "RegistrationCount": 0
+    },
+    {
+     "CategoryName": "Men 4/5",
+     "CategoryDates": [
+      "/Date(1788062400000-0400)/",
+      "/Date(1788580800000-0400)/",
+      "/Date(1790395200000-0400)/",
+      "/Date(1792209600000-0400)/",
+      "/Date(1794027600000-0500)/"
+     ],
+     "EntryFee": 185.0,
+     "StartTime": "23:59:00",
+     "FieldLimit": 0,
+     "RegistrationCount": 0
+    }
+   ]
+  },
+  {
+   "EventId": 75191,
+   "EventName": "The Arch-Maker CX",
+   "EventCity": "Hiawatha",
+   "EventState": "IA",
+   "EventZip": "52233",
+   "EventDate": "/Date(1794027600000-0500)/",
+   "EventEndDate": "/Date(1794114000000-0500)/",
+   "Latitude": 42.0500484,
+   "Longitude": -91.6981859,
+   "EventPermalink": "http://www.BikeReg.com/75191",
+   "EventUrl": "http://www.BikeReg.com/the-arch-maker-cx",
+   "RegOpenDate": "/Date(1775020500000-0400)/",
+   "RegCloseDate": "/Date(1793684700000-0500)/",
+   "EventTypes": [
+    "Cyclocross"
+   ],
+   "PresentedBy": "Hiawatha Parks & Recreation  / Corridor Devo Junior Cycling Team ",
+   "Categories": [
+    {
+     "CategoryName": "M Masters 35+",
+     "CategoryDates": [
+      "/Date(1794027600000-0500)/",
+      "/Date(1794114000000-0500)/"
+     ],
+     "EntryFee": 35.0,
+     "StartTime": "09:25:00",
+     "FieldLimit": 100,
+     "RegistrationCount": 0
+    },
+    {
+     "CategoryName": "M Masters 45+",
+     "CategoryDates": [
+      "/Date(1794027600000-0500)/",
+      "/Date(1794114000000-0500)/"
+     ],
+     "EntryFee": 35.0,
+     "StartTime": "09:25:00",
+     "FieldLimit": 100,
+     "RegistrationCount": 0
+    },
+    {
+     "CategoryName": "M Masters 55+",
+     "CategoryDates": [
+      "/Date(1794027600000-0500)/",
+      "/Date(1794114000000-0500)/"
+     ],
+     "EntryFee": 35.0,
+     "StartTime": "09:25:00",
+     "FieldLimit": 100,
+     "RegistrationCount": 0
+    }
+   ]
+  },
+  {
+   "EventId": 73083,
+   "EventName": "Keene Pumpkin Cross",
+   "EventCity": "Surry",
+   "EventState": "NH",
+   "EventZip": "03431",
+   "EventDate": "/Date(1794114000000-0500)/",
+   "EventEndDate": "/Date(1794114000000-0500)/",
+   "Latitude": 43.0041799,
+   "Longitude": -72.3201627,
+   "EventPermalink": "http://www.BikeReg.com/73083",
+   "EventUrl": "http://www.BikeReg.com/keene-pumpkincross",
+   "RegOpenDate": "/Date(1785600000000-0400)/",
+   "RegCloseDate": "/Date(1794020400000-0500)/",
+   "EventTypes": [
+    "Cyclocross",
+    "ECCC",
+    "NEBRA"
+   ],
+   "PresentedBy": "KHS Nordic Ski Boosters Club",
+   "Categories": [
+    {
+     "CategoryName": "Men Cat 4/Novice & Collegiate C",
+     "CategoryDates": [
+      "/Date(1794114000000-0500)/"
+     ],
+     "EntryFee": 40.0,
+     "StartTime": "09:00:00",
+     "FieldLimit": 0,
+     "RegistrationCount": 0
+    },
+    {
+     "CategoryName": "Men Cat 4/Novice 45+",
+     "CategoryDates": [
+      "/Date(1794114000000-0500)/"
+     ],
+     "EntryFee": 40.0,
+     "StartTime": "09:01:00",
+     "FieldLimit": 0,
+     "RegistrationCount": 0
+    },
+    {
+     "CategoryName": "Junior Boys 9-12",
+     "CategoryDates": [
+      "/Date(1794114000000-0500)/"
+     ],
+     "EntryFee": 20.0,
+     "StartTime": "10:00:00",
+     "FieldLimit": 0,
+     "RegistrationCount": 0
+    }
+   ]
+  },
+  {
+   "EventId": 73951,
+   "EventName": "HenBIKEo CX - VACX",
+   "EventCity": "Glen Allen",
+   "EventState": "VA",
+   "EventZip": "23060",
+   "EventDate": "/Date(1789185600000-0400)/",
+   "EventEndDate": "/Date(1789185600000-0400)/",
+   "Latitude": 37.6751343,
+   "Longitude": -77.5178895,
+   "EventPermalink": "http://www.BikeReg.com/73951",
+   "EventUrl": "http://www.BikeReg.com/henbikeo",
+   "RegOpenDate": "/Date(1785556860000-0400)/",
+   "RegCloseDate": null,
+   "EventTypes": [
+    "Cyclocross"
+   ],
+   "PresentedBy": "THR Cycling, CAR6ON RACING, and  Henrico County Recreation & Parks",
+   "Categories": [
+    {
+     "CategoryName": "VACX BAR Winners/Promoters",
+     "CategoryDates": [
+      "/Date(1789185600000-0400)/"
+     ],
+     "EntryFee": 6.0,
+     "StartTime": "23:59:00",
+     "FieldLimit": 0,
+     "RegistrationCount": 0
+    },
+    {
+     "CategoryName": "Women's Beginner Racer Mentor Program",
+     "CategoryDates": [
+      "/Date(1789185600000-0400)/"
+     ],
+     "EntryFee": 0.0,
+     "StartTime": "09:00:00",
+     "FieldLimit": 0,
+     "RegistrationCount": 0
+    },
+    {
+     "CategoryName": "Men's Beginner Racer Mentor Program",
+     "CategoryDates": [
+      "/Date(1789185600000-0400)/"
+     ],
+     "EntryFee": 0.0,
+     "StartTime": "09:00:00",
+     "FieldLimit": 0,
+     "RegistrationCount": 0
+    }
+   ]
+  },
+  {
+   "EventId": 76849,
+   "EventName": "Greene Acres Cyclocross Classic",
+   "EventCity": "St Francis",
+   "EventState": "WI",
+   "EventZip": "53235",
+   "EventDate": "/Date(1789272000000-0400)/",
+   "EventEndDate": "/Date(1789272000000-0400)/",
+   "Latitude": null,
+   "Longitude": null,
+   "EventPermalink": "http://www.BikeReg.com/76849",
+   "EventUrl": "http://www.BikeReg.com/greene-acres-cx",
+   "RegOpenDate": "/Date(1781154900000-0400)/",
+   "RegCloseDate": "/Date(1789232400000-0400)/",
+   "EventTypes": [
+    "Cyclocross"
+   ],
+   "PresentedBy": "Milwaukee Bicycle Company and Ben's Cycle",
+   "Categories": [
+    {
+     "CategoryName": "Masters 4/5 - Open - 35+",
+     "CategoryDates": [
+      "/Date(1789272000000-0400)/"
+     ],
+     "EntryFee": 28.0,
+     "StartTime": "09:00:00",
+     "FieldLimit": 100,
+     "RegistrationCount": 0
+    },
+    {
+     "CategoryName": "Masters 4/5 - Open - 50+",
+     "CategoryDates": [
+      "/Date(1789272000000-0400)/"
+     ],
+     "EntryFee": 28.0,
+     "StartTime": "09:01:00",
+     "FieldLimit": 100,
+     "RegistrationCount": 0
+    },
+    {
+     "CategoryName": "Masters 1/2/3/4/5 - Women - 35+",
+     "CategoryDates": [
+      "/Date(1789272000000-0400)/"
+     ],
+     "EntryFee": 28.0,
+     "StartTime": "09:45:00",
+     "FieldLimit": 100,
+     "RegistrationCount": 0
+    }
+   ]
+  }
+ ]
+}
