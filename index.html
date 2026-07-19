@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CX Season Planner</title>
+<meta name="description" content="Cyclocross races within driving range of Brooklyn, NY — dates, registration windows, and drive times in one place.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚵</text></svg>">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <p class="masthead-eyebrow">2026–27 season · from Brooklyn, NY</p>
+  <h1>Cross Season <span class="accent">Planner</span></h1>
+  <p class="masthead-sub" id="masthead-sub"></p>
+</header>
+
+<nav class="controls" aria-label="Sort and filter races">
+  <div class="control-group" role="group" aria-label="Sort order">
+    <span class="control-label">Sort</span>
+    <div class="segmented" id="sort-control">
+      <button type="button" data-sort="date" class="is-active" aria-pressed="true">Date</button>
+      <button type="button" data-sort="drive" aria-pressed="false">Drive time</button>
+    </div>
+  </div>
+  <div class="control-group" role="group" aria-label="Maximum drive time">
+    <span class="control-label">Within</span>
+    <div class="segmented" id="drive-control">
+      <button type="button" data-max="120" aria-pressed="false">2h</button>
+      <button type="button" data-max="240" aria-pressed="false">4h</button>
+      <button type="button" data-max="480" aria-pressed="false">8h</button>
+      <button type="button" data-max="" class="is-active" aria-pressed="true">Any</button>
+    </div>
+  </div>
+  <div class="control-group control-toggles">
+    <label class="toggle"><input type="checkbox" id="hide-closed"><span>Hide closed reg</span></label>
+    <label class="toggle"><input type="checkbox" id="starred-only"><span>Starred only</span></label>
+  </div>
+</nav>
+
+<main id="race-list" aria-live="polite"></main>
+
+<footer class="site-footer">
+  <p>Race data from the <a href="https://www.bikereg.com" rel="noopener">BikeReg</a> event API ·
+  drive times by <a href="https://project-osrm.org" rel="noopener">OSRM</a> (typical traffic-free driving)
+  · <span id="footer-generated"></span></p>
+</footer>
+
+<script src="js/race-data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
