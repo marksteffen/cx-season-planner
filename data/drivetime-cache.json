@@ -259,6 +259,11 @@
   "minutes": 731,
   "source": "osrm"
  },
+ "77084": {
+  "miles": 891,
+  "minutes": 1017,
+  "source": "osrm"
+ },
  "77096": {
   "miles": 1806,
   "minutes": 1968,
@@ -357,6 +362,16 @@
  "77293": {
   "miles": 191,
   "minutes": 278,
+  "source": "osrm"
+ },
+ "77313": {
+  "miles": 864,
+  "minutes": 986,
+  "source": "osrm"
+ },
+ "77339": {
+  "miles": 465,
+  "minutes": 544,
   "source": "osrm"
  }
 }
