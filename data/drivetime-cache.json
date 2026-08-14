@@ -379,6 +379,11 @@
   "minutes": 846,
   "source": "osrm"
  },
+ "77283": {
+  "miles": 95,
+  "minutes": 129,
+  "source": "osrm"
+ },
  "77293": {
   "miles": 191,
   "minutes": 278,
@@ -432,6 +437,16 @@
  "77394": {
   "miles": 1029,
   "minutes": 1186,
+  "source": "osrm"
+ },
+ "77395": {
+  "miles": 731,
+  "minutes": 854,
+  "source": "osrm"
+ },
+ "77397": {
+  "miles": 707,
+  "minutes": 827,
   "source": "osrm"
  },
  "77402": {
@@ -522,6 +537,16 @@
  "77514": {
   "miles": 23,
   "minutes": 41,
+  "source": "osrm"
+ },
+ "77517": {
+  "miles": 633,
+  "minutes": 726,
+  "source": "osrm"
+ },
+ "77522": {
+  "miles": 696,
+  "minutes": 809,
   "source": "osrm"
  }
 }
