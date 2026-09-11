@@ -424,6 +424,11 @@
   "minutes": 544,
   "source": "osrm"
  },
+ "77351": {
+  "miles": 260,
+  "minutes": 329,
+  "source": "osrm"
+ },
  "77352": {
   "miles": 169,
   "minutes": 216,
@@ -1172,6 +1177,11 @@
  "77817": {
   "miles": 1748,
   "minutes": 1913,
+  "source": "osrm"
+ },
+ "77819": {
+  "miles": 231,
+  "minutes": 299,
   "source": "osrm"
  }
 }
