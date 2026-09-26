@@ -1288,5 +1288,15 @@
   "miles": 2404,
   "minutes": 2685,
   "source": "osrm"
+ },
+ "77947": {
+  "miles": 1867,
+  "minutes": 2173,
+  "source": "osrm"
+ },
+ "77952": {
+  "miles": 22,
+  "minutes": 42,
+  "source": "osrm"
  }
 }
