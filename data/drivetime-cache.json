@@ -1358,5 +1358,25 @@
   "miles": 1786,
   "minutes": 1946,
   "source": "osrm"
+ },
+ "78017": {
+  "miles": 1237,
+  "minutes": 1427,
+  "source": "osrm"
+ },
+ "78018": {
+  "miles": 978,
+  "minutes": 1142,
+  "source": "osrm"
+ },
+ "78021": {
+  "miles": 725,
+  "minutes": 876,
+  "source": "osrm"
+ },
+ "78028": {
+  "miles": 22,
+  "minutes": 42,
+  "source": "osrm"
  }
 }
