@@ -15,6 +15,8 @@
   --open-tint: #e4f0e2;
   --upcoming: #8a6d1d;
   --upcoming-tint: #f6eecf;
+  --inclusive: #2f6383;
+  --inclusive-tint: #e2edf3;
   --closed: #9a9181;
   --closed-tint: #eeeae0;
   --display: "Barlow Condensed", "Arial Narrow", sans-serif;
@@ -261,6 +263,7 @@ button { font: inherit; cursor: pointer; }
 .badge.open { color: var(--open); background: var(--open-tint); }
 .badge.upcoming { color: var(--upcoming); background: var(--upcoming-tint); }
 .badge.closed { color: var(--closed); background: var(--closed-tint); }
+.badge.inclusive { color: var(--inclusive); background: var(--inclusive-tint); }
 
 .reg-detail { font-size: 12.5px; color: var(--muted); }
 

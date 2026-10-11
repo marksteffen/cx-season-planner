@@ -33,6 +33,9 @@ BikeReg Event Search API ──► scripts/fetch_races.py ──► js/race-data
   browser from the raw dates on every load, so they stay correct even between
   refreshes. Starred races live in the browser's localStorage and never leave
   your device.
+- **`js/inclusive.js`** — the hand-maintained list of races labeled
+  "Inclusive": whole series by name (e.g. `PMCX`) or single races by BikeReg
+  event ID. The daily refresh never touches it.
 
 ## Refresh model
 

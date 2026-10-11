@@ -127,6 +127,16 @@
     };
   }
 
+  // --- Inclusive races (Mark's list, js/inclusive.js) -----------------------
+
+  const inclusiveIds = new Set(INCLUSIVE.eventIds.map(Number));
+  const inclusiveSeries = INCLUSIVE.seriesNames.map(
+    (name) => new RegExp(`\\b${name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "i"));
+
+  function isInclusive(race) {
+    return inclusiveIds.has(race.id) || inclusiveSeries.some((pattern) => pattern.test(race.name));
+  }
+
   // --- Filtering + sorting ---------------------------------------------------
 
   function visibleRaces() {
@@ -194,6 +204,7 @@
           : escapeHtml(race.name)}</h3>
         <p class="race-meta">${escapeHtml(location)}${race.presentedBy ? `<span class="sep">·</span>${escapeHtml(race.presentedBy)}` : ""}</p>
         <div class="race-reg">
+          ${isInclusive(race) ? `<span class="badge inclusive">Inclusive</span>` : ""}
           <span class="badge ${status.kind}">${status.label}</span>
           ${status.detail ? `<span class="reg-detail">${status.detail}</span>` : ""}
         </div>
