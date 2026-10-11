@@ -11,6 +11,7 @@
     maxDrive: null, // minutes, or null for any
     hideClosed: false,
     starredOnly: false,
+    inclusiveOnly: false,
     starred: loadStarred(),
     expanded: new Set(), // race ids with categories open
   };
@@ -145,6 +146,7 @@
       if (state.maxDrive != null && (race.driveMinutes == null || race.driveMinutes > state.maxDrive)) return false;
       if (state.hideClosed && regStatus(race, now).kind === "closed") return false;
       if (state.starredOnly && !state.starred.has(race.id)) return false;
+      if (state.inclusiveOnly && !isInclusive(race)) return false;
       return true;
     });
     if (state.sort === "drive") {
@@ -231,6 +233,7 @@
     if (state.maxDrive != null) suggestions.push("widen the drive-time range");
     if (state.hideClosed) suggestions.push("include closed registrations");
     if (state.starredOnly && state.starred.size > 0) suggestions.push("turn off “Starred only”");
+    if (state.inclusiveOnly) suggestions.push("turn off “Inclusive only”");
     return `
     <div class="empty-state">
       <span class="empty-mark" aria-hidden="true">🥶</span>
@@ -314,6 +317,11 @@
 
   document.getElementById("starred-only").addEventListener("change", (event) => {
     state.starredOnly = event.target.checked;
+    render();
+  });
+
+  document.getElementById("inclusive-only").addEventListener("change", (event) => {
+    state.inclusiveOnly = event.target.checked;
     render();
   });
 
