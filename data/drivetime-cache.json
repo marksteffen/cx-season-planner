@@ -1384,6 +1384,11 @@
   "minutes": 42,
   "source": "osrm"
  },
+ "78035": {
+  "miles": 1241,
+  "minutes": 1442,
+  "source": "osrm"
+ },
  "78037": {
   "miles": 901,
   "minutes": 1046,
@@ -1397,6 +1402,21 @@
  "78088": {
   "miles": 1104,
   "minutes": 1241,
+  "source": "osrm"
+ },
+ "78089": {
+  "miles": 1261,
+  "minutes": 1426,
+  "source": "osrm"
+ },
+ "78100": {
+  "miles": 1354,
+  "minutes": 1541,
+  "source": "osrm"
+ },
+ "78103": {
+  "miles": 2991,
+  "minutes": 3225,
   "source": "osrm"
  }
 }
