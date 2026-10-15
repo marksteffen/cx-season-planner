@@ -1394,6 +1394,11 @@
   "minutes": 1046,
   "source": "osrm"
  },
+ "78054": {
+  "miles": 512,
+  "minutes": 615,
+  "source": "osrm"
+ },
  "78058": {
   "miles": 2968,
   "minutes": 3188,
