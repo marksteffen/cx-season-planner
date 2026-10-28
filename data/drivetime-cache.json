@@ -1458,5 +1458,15 @@
   "miles": 119,
   "minutes": 172,
   "source": "osrm"
+ },
+ "78235": {
+  "miles": 1343,
+  "minutes": 1531,
+  "source": "osrm"
+ },
+ "78250": {
+  "miles": 1197,
+  "minutes": 1348,
+  "source": "osrm"
  }
 }
